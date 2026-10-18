@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#00929F">
+  <title>IKRAM Bandar Tun Razak</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #f0fafa; }
+    body { height: 100dvh; overflow: hidden; }
+    /* The loading text sits behind the frame; the kiosk page covers it once drawn. */
+    iframe { position: relative; z-index: 1; display: block; border: 0; width: 100%; height: 100%; }
+    .loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      font: 600 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: #00929F; }
+  </style>
+</head>
+<body>
+  <div class="loading">Sedang dimuatkan...</div>
+  <iframe id="kiosk" title="IKRAM Bandar Tun Razak" allow="clipboard-write; web-share"></iframe>
+  <script>
+    // Shows the IBTR kiosk (Pendaftaran, Kehadiran, Jom Usrah!, Sertai
+    // Keluarga, Papar) inside this page. Google only adds its "created by a
+    // Google Apps Script user" bar when the kiosk is opened directly, so
+    // framing it here hides the bar. Everything after "?" is passed through.
+    var KIOSK = 'https://script.google.com/macros/s/AKfycbxr_Rg7YQ9tI00a7mWeOnTl31QyNqnQ5YQrIEvDRV-kQEGjs-Lf0aza4oslaK8w-XOU/exec';
+    var params = new URLSearchParams(location.search);
+    var titles = {
+      pendaftaran: 'Pendaftaran Program IBTR',
+      kehadiran: 'Kehadiran Program IBTR',
+      jomusrah: 'Jom Usrah!',
+      sertaikeluarga: 'Sertai Keluarga IKRAM BTR!',
+      papar: 'Papar Pendaftaran'
+    };
+    var mode = params.get('mode') || 'kehadiran';
+    if (titles[mode]) document.title = titles[mode];
+    document.getElementById('kiosk').src = KIOSK + (params.toString() ? '?' + params.toString() : '');
+  </script>
+</body>
+</html>
