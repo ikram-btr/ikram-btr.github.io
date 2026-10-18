@@ -18,22 +18,29 @@
   <div class="loading">Sedang dimuatkan...</div>
   <iframe id="kiosk" title="IKRAM Bandar Tun Razak" allow="clipboard-write; web-share"></iframe>
   <script>
-    // Shows the IBTR kiosk (Pendaftaran, Kehadiran, Jom Usrah!, Sertai
-    // Keluarga, Papar) inside this page. Google only adds its "created by a
-    // Google Apps Script user" bar when the kiosk is opened directly, so
-    // framing it here hides the bar. Everything after "?" is passed through.
+    // Shows the IBTR kiosk (Pendaftaran, Kehadiran, Sertai Usrah, Sertai
+    // Keluarga, Papar, Daftar Program) inside this page. Google only adds
+    // its "created by a Google Apps Script user" bar when the kiosk is
+    // opened directly, so framing it here hides the bar. Everything after
+    // "?" is passed through.
     var KIOSK = 'https://script.google.com/macros/s/AKfycbxr_Rg7YQ9tI00a7mWeOnTl31QyNqnQ5YQrIEvDRV-kQEGjs-Lf0aza4oslaK8w-XOU/exec';
+    var DASHBOARD = 'https://script.google.com/macros/s/AKfycby2p1Cd02pJh1uIdBoFMdZaZIEqdZr_gL0XXsXKEBc_Gu_4bPt7HHx-yq6Ky8jDevMm/exec';
     var params = new URLSearchParams(location.search);
     var titles = {
       pendaftaran: 'Pendaftaran Program IBTR',
       kehadiran: 'Kehadiran Program IBTR',
       jomusrah: 'Sertai Usrah',
       sertaikeluarga: 'Sertai Keluarga IKRAM BTR',
-      papar: 'Papar Pendaftaran'
+      papar: 'Papar Pendaftaran',
+      daftarprogram: 'Daftar Program'
     };
     var mode = params.get('mode') || 'kehadiran';
     if (titles[mode]) document.title = titles[mode];
-    document.getElementById('kiosk').src = KIOSK + (params.toString() ? '?' + params.toString() : '');
+    // Daftar Program for outside users lives in the dashboard project.
+    var src = mode === 'daftarprogram'
+      ? DASHBOARD + '?page=daftar'
+      : KIOSK + (params.toString() ? '?' + params.toString() : '');
+    document.getElementById('kiosk').src = src;
   </script>
 </body>
 </html>
