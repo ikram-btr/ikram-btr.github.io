@@ -32,14 +32,17 @@
       jomusrah: 'Sertai Usrah',
       sertaikeluarga: 'Sertai Keluarga IKRAM BTR',
       papar: 'Papar Pendaftaran',
-      daftarprogram: 'Daftar Program'
+      daftarprogram: 'Daftar Program',
+      laporanjk: 'Laporan JK'
     };
     var mode = params.get('mode') || 'kehadiran';
     if (titles[mode]) document.title = titles[mode];
-    // Daftar Program for outside users lives in the dashboard project.
+    // Daftar Program and Laporan JK for outside users live in the dashboard project.
     var src = mode === 'daftarprogram'
       ? DASHBOARD + '?page=daftar'
-      : KIOSK + (params.toString() ? '?' + params.toString() : '');
+      : mode === 'laporanjk'
+        ? DASHBOARD + '?page=laporanjk&id=' + encodeURIComponent(params.get('id') || '')
+        : KIOSK + (params.toString() ? '?' + params.toString() : '');
     document.getElementById('kiosk').src = src;
   </script>
 </body>
